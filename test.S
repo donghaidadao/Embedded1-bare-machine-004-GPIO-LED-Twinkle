@@ -1,0 +1,40 @@
+.text
+.global _start
+_start:
+
+	LDR R0,=0x56000060
+	MOV R1,#00000005
+	STR R1,[R0]
+	
+	LDR R0,=0x56000064 
+	MOV R1,#0X0000
+	STR R1,[R0]
+	
+MAIN_LOOP:
+	MOV R1,#0X0001
+	STR R1,[R0]	
+	BL DELAY
+	
+	MOV R1,#0X0000
+	STR R1,[R0]	
+	BL DELAY
+	
+	B MAIN_LOOP
+	
+DELAY:
+	LDR R2,=0x100
+	
+DLOOP2:
+	LDR R3,=0x100
+DLOOP1:
+	SUB R3,R3,#1
+	CMP R3,#0
+	BNE DLOOP1
+	
+	SUB R2,R2,#1
+	CMP R2,#0
+	BNE DLOOP2
+	
+	BX LR
+.end
+
